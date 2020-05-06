@@ -1,0 +1,243 @@
+@font-face {
+    font-family: AdihausDIN;
+    src: url(../fonts/16860.otf);
+}
+
+* {
+    margin: 0;
+	padding: 0;
+	font-family: AdihausDIN, 'Comic Sans MS', normal;
+    font-size: 20px;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #2b2a29;
+    overflow: hidden;
+}
+
+.wrapper {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.header_position {
+    text-align: center;
+}
+
+.header__title {
+    color:white;
+    padding: 15px;
+}
+
+.content_position {
+    display: flex;
+    align-items: flex-start;
+}
+
+.game_position {
+    flex: 70%;
+    margin-right: 20px;
+    padding: 25px;
+    animation: leftcenter 0.3s;
+}
+
+.score_position {
+    flex: 30%;
+    display: flex;
+    flex-direction: column;
+    animation: rightcenter 0.3s;
+}
+
+.game_position, .score_position {
+    background-color: white;
+    border-radius: 5px;
+}
+
+.game__start {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+}
+
+.game__option {
+    width: 200px;
+}
+
+.game__option-text {
+    margin-top: 10px;
+}
+
+.button__game {
+    text-align: center;
+    border: 1px solid lightgrey;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: black;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.button__game:hover {
+    background-color: lightgrey;
+    color: white;
+}
+
+.button__game:active {
+    position: relative;
+    top: 2px;
+}
+
+.button__game_start {
+    margin-top: 15px;
+    width: 200px;
+}
+
+.button__game_score {
+    margin: 5px;
+}
+
+.score__block {
+    line-height: 50px;
+    display: flex;
+    align-items: center;
+    flex: 0 50%;
+    animation: rightcenter 0.3s;
+}
+
+.score__title {
+    padding: 10px;
+}
+
+.score__result {
+    font-weight: 600; 
+    flex: 50%;
+    text-align: center;
+}
+
+.score__result_lose {
+    color: red;
+}
+
+.score__result_win {
+    color: limegreen;
+}
+
+.score__time {
+    color: grey;
+    flex: 50%;
+}
+
+.score__block_empty {
+    justify-content: center;
+    color: lightgray;
+}
+
+.game__field {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    height: 375px;
+    width: 375px;
+    margin: 0 auto;
+}
+
+.game__cell {
+    height: 125px;
+    width: 125px;
+    border-right: 3px solid black;
+    border-bottom: 3px solid black;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game__cell:nth-child(3n+3) {
+    border-right: none;
+}
+
+.game__cell:nth-last-child(-n+3) {
+    border-bottom: none;
+}
+
+.tic {
+    fill: none;
+    stroke: rgb(0, 0, 0);
+    stroke-width: 10;
+    animation: svganim 1s;
+}
+
+.tac {
+    fill: none;
+    stroke: rgb(0, 0, 0);
+    stroke-width: 10;
+    transform: rotate(-90deg, 100, 100);
+    animation: svganim 1s;
+}
+
+.game__informer {
+    display: flex;
+    margin: 0 10px 5px 10px;
+}
+
+.game__time, .game__score, .game_diff {
+    flex: 33%;
+}
+
+
+@media screen and (max-width: 1200px) {
+    .wrapper {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .content_position {
+        flex-direction: column;
+    }
+    
+    .game_position {
+        width: 100%;
+        margin: 0;
+    }
+    
+    .score_position {
+        width: 100%;
+        margin-top: 25px;
+    }
+}
+
+@media screen and (max-width: 530px) {
+    .wrapper {
+        width: 100%;
+    }
+    
+    .game_position {
+        padding-left: 0;
+        padding-right: 0;
+        border-radius: 0;
+    }
+    
+    .score_position {
+        border-radius: 0;
+    }
+}
+
+
+@keyframes leftcenter {
+ from { transform: translateX(-200%); }
+ to { transform: translateX(0%); }
+}
+
+@keyframes rightcenter {
+ from { transform: translateX(200%); }
+ to { transform: translateX(0%); }
+}
+
+@keyframes svganim {
+ from { stroke-dasharray: 0, 20000; }
+ to { stroke-dasharray: 360, 20000; }    
+}

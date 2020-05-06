@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Крестики нолики</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header header_position">
+            <h2 class="header__title">Крестики нолики</h2>
+        </div>
+        <div class="content content_position">
+            <div class="game game_position">
+                <div class="game__start">
+                   <p class="game__option-text">Сложность:</p>
+                    <select class="game__option">
+                      <option>Легко</option>
+                      <option>Средне</option>
+                      <option>Сложно</option>
+                    </select>
+                    <p class="game__option-text">Играть за:</p>
+                    <select class="game__option">
+                      <option>Крестики</option>
+                      <option>Нолики</option>
+                    </select>
+                    <a href="#" class="button button__game button__game_start">Начать игру</a>
+                </div>
+                <!--<div class="game__informer">
+                    <span class="game__time">Время: 13s</span>
+                    <div class="game__score">Счет 0:1</div>
+                    <div class="game__diff">Сложно</div>
+                </div>
+                <div class="game__field">
+                    <div class="game__cell">
+                        <svg height="100" width="100">
+                          <circle class="tac" cx="50" cy="50" r="40"/>
+                        </svg> 
+                    </div>
+                    <div class="game__cell">
+                        <svg height="100" width="100">
+                          <line class="tic" x1="10" y1="10" x2="90" y2="90" stroke="black" stroke-width="3" />
+                          <line class="tic" x1="90" y1="10" x2="10" y2="90" stroke="black" stroke-width="3" />
+                        </svg>
+                    </div>
+                    <div class="game__cell"></div>
+                    <div class="game__cell"></div>
+                    <div class="game__cell"></div>
+                    <div class="game__cell"></div>
+                    <div class="game__cell"></div>
+                    <div class="game__cell"></div>
+                    <div class="game__cell"></div>
+                </div>-->
+            </div>
+            <div class="score score_position">
+                <h2 class="score__title">10 последних игр</h2>
+                <div class="score__block">
+                    <span class="score__result score__result_lose">Поражение</span>
+                    <span class="score__time">Время: 19s</span>
+                </div>
+                <div class="score__block">
+                    <span class="score__result score__result_win">Победа!</span>
+                    <span class="score__time">Время: 23s</span>
+                </div>
+                <div class="score__block score__block_empty">Пусто</div>
+                <a href="#" class="button button__game button__game_score">Очистить</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
