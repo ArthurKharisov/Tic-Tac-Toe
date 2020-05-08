@@ -35,19 +35,22 @@ define('app/Controllers/MainHandler.js', [
             this.elem.startUI = Helper.insertElement('div', this.elem.gameUI, 'game__start', (new Elements("start")));
 
             let buttonStart = this.elem.startUI.querySelector('.button');
+
             buttonStart.addEventListener("click", () => {
                 let dif = this.elem.startUI.querySelector('.game__option-diff').selectedIndex;
                 if (dif === 0) this.playerOptions.difficult = 11;
                 if (dif === 1) this.playerOptions.difficult = 6;
                 if (dif === 2) this.playerOptions.difficult = 1;
+
                 let figure = this.elem.startUI.querySelector('.game__option-figure').selectedIndex;
-                if (figure == 0) {
+                if (figure === 0) {
                     this.playerOptions.figure = new Elements("tic");
-                    this.computerFigure = figure = new Elements("tac");
+                    this.computerFigure = new Elements("tac");
                 } else {
                     this.playerOptions.figure = new Elements("tac");
-                    this.computerFigure = figure = new Elements("tic");
+                    this.computerFigure = new Elements("tic");
                 }
+
                 this.elem.startUI.classList.add('hide');
                 this.start();
             });
@@ -87,14 +90,14 @@ define('app/Controllers/MainHandler.js', [
             let newArr = this.elem.field;
             let bestStep = -1;
 
-            // Проверка на выигрыш компьютера или игрока
+            // Проверка на выигрыш компьютера и игрока
             for (let k = 1; k < 3; k++) {
                 for (let i = 0; i < 9; i++) {
                     if (newArr[i] === 0) {
                         let bufArr = newArr.map((x) => x);
                         bufArr[i] = 3 - k;
                         if (this.checkWinner(3 - k, bufArr)) {
-                            bestStep = i;
+                            if (bestStep == -1) bestStep = i;
                             if (dif > 6 && k == 2) // если проверяется выигрыш игрока и сложность легкая то обнуляем лучший ход
                                 bestStep = -1;
                         }
@@ -105,8 +108,11 @@ define('app/Controllers/MainHandler.js', [
             // Если лучший ход не найден проверяем есть ли выигрышные ходы по вертикали и горизонтали
             if (bestStep == -1) {
 
-                let indexComputer = [], i;
-                for (i = 0; i < newArr.length; i++) if (newArr[i] === 2) indexComputer.push(i);
+                // индексы ходов компьютера
+                let indexComputer = [];
+                for (let i = 0; i < newArr.length; i++)
+                    if (newArr[i] === 2)
+                        indexComputer.push(i);
                 let index1, index2;
                 indexComputer.forEach((index) => {
 
@@ -177,7 +183,7 @@ define('app/Controllers/MainHandler.js', [
                     } else {
                         bestSteps = [4];
                     }
-                } else { // если все првоерки не прошли, находим лучший ход рандомным способом среди пустых клеток
+                } else { // если все проверки не прошли, находим лучший ход рандомным способом среди пустых клеток
                     for (let i = 0; i < newArr.length; i++)
                         if (newArr[i] === 0) bestSteps.push(i);
                 }
@@ -185,15 +191,18 @@ define('app/Controllers/MainHandler.js', [
             }
 
             // сон перед ходом
-            await Helper.sleep(Helper.random(2000));
+            await Helper.sleep(Helper.random(1500));
 
-            //
+            // занимаем клетку
             this.elem.field[bestStep] = 2;
+
+            // вставляем элемент
             this.elem.cells.forEach((item) => {
                 if (item.dataset.cell == bestStep) {
                     Helper.insertElement('div', item, 'tictac', this.computerFigure);
                 }
             });
+
             this.togglePlayer();
         }
 
@@ -202,6 +211,7 @@ define('app/Controllers/MainHandler.js', [
          * @param e
          */
         playerStep(e) {
+            // Если кликнуто по клетке тогда рисуем элемент, занимаем клетку и меняем ход
             if ((e.target.className === "game__cell") && (e.target.firstChild === null)) {
                 Helper.insertElement('div', e.target, 'tictac', inst.playerOptions.figure);
                 inst.elem.field[e.target.dataset.cell] = 1;
@@ -210,19 +220,26 @@ define('app/Controllers/MainHandler.js', [
         }
 
         /**
-         * Смена текущего игрока и проверка на победу
+         * Смена текущего игрока и проверка на победу или ничью
          */
         togglePlayer() {
+
             let win = this.checkWinner(this.currentPlayer + 1, this.elem.field);
             let tie = !this.elem.field.includes(0);
+
+            // если победа или ничья завершаем игру
             if (win || tie) {
-                if (win) (this.currentPlayer === 0) ? this.score.player++ : this.score.computer++;
-                if (!win) this.currentPlayer = 2;
-                this.informer(2, this.score);
+                if (win) (this.currentPlayer === 0) ? this.score.player++ : this.score.computer++; // прибавлем очко победителю
+                if (!win) this.currentPlayer = 2; // если ничья то меняем переменную текущего игрока на 2, нужно для правильного вывода сообщения
+
+                this.informer(2, this.score); // останавливаем счетчик и выводим соответствующее сообщение
+
+                // удаляем обработчик у игрока
                 this.elem.fieldUI.removeEventListener("click", this.playerStep);
+
+                // показываем элементы управления, меняем ее вид и позицию
                 this.elem.startUI.classList.remove('hide');
-                this.elem.startUI.style.flexDirection = "row";
-                this.elem.startUI.style.justifyContent = "space-around";
+                this.elem.startUI.classList.add('game__start_horizontal');
                 this.elem.gameUI.appendChild(this.elem.startUI);
             } else if (this.currentPlayer == 0) {
                 this.currentPlayer = 1;
@@ -240,16 +257,18 @@ define('app/Controllers/MainHandler.js', [
          * Начало игры
          */
         start() {
+
+            // Создаем информер, игровое поле и ищем клетки или очищаем клетки
             if (this.elem.informUI === undefined) {
                 this.elem.informUI = Helper.insertElement('div', this.elem.gameUI, 'game__informer', (new Elements("informer")));
                 this.elem.fieldUI = Helper.insertElement('div', this.elem.gameUI, 'game__field', (new Elements("field")));
+                this.elem.cells = this.elem.fieldUI.querySelectorAll('.game__cell');
             } else {
-                let cells = this.elem.fieldUI.querySelectorAll('.game__cell');
-                cells.forEach((cell) => {
+                this.elem.cells.forEach((cell) => {
                     cell.innerHTML = "";
                 });
             }
-            this.elem.cells = this.elem.fieldUI.querySelectorAll('.game__cell');
+
             this.elem.field = [0, 0, 0, 0, 0, 0, 0, 0, 0];
             this.informer(1, this.score);
             this.togglePlayer();
@@ -266,6 +285,7 @@ define('app/Controllers/MainHandler.js', [
             let stepUI = this.elem.informUI.querySelector('.game__step');
             let seconds = 0;
 
+            // Включение таймера
             if (state === 1) {
                 timeUI.innerText = `Время: ${seconds}s`;
                 this.elem.timer = setInterval(() => {
@@ -273,21 +293,31 @@ define('app/Controllers/MainHandler.js', [
                     timeUI.innerText = `Время: ${seconds}s`;
                 }, 1000);
             }
+
+            // Отключение таймера и занесние результата в score
             if (state === 2) {
                 clearInterval(this.elem.timer);
+
+                // Удаляем надпись пусто
                 if (this.elem.scoreUI.querySelector('.score__block_empty') !== null) this.elem.scoreUI.querySelector('.score__block_empty').remove();
+
+                // Вставялем соответствующее сообщение
                 let block;
                 if (this.currentPlayer == 0) block = Helper.insertElement('div', this.elem.scoreUI, 'score__block', (new Elements("win")));
                 if (this.currentPlayer == 1) block = Helper.insertElement('div', this.elem.scoreUI, 'score__block', (new Elements("lose")));
                 if (this.currentPlayer == 2) block = Helper.insertElement('div', this.elem.scoreUI, 'score__block', (new Elements("tie")));
-                if (this.elem.scoreUI.childElementCount >= 12) this.elem.scoreUI.children[1].remove();
                 block.querySelector('.score__time').innerText = timeUI.innerText;
+
+                // Удаляем первое сообщение если сообщений больше 10
+                if (this.elem.scoreUI.childElementCount >= 12) this.elem.scoreUI.children[1].remove();
             }
 
+            // Занесение счета
             if (score !== undefined) {
                 scoreUI.innerText = `Счет ${score.player}:${score.computer}`;
             }
 
+            // Изменение информации текущего хода
             if (this.currentPlayer === 0) {
                 stepUI.innerText = `Ваш ход`;
             } else {

@@ -1,7 +1,7 @@
 /**
  * Главная страница
  */
-define('app/Controllers/MainPage.js', function (Component) {
+define('app/Controllers/MainPage.js', ['app/Components/Component.js'], function (Component) {
 
     return class MainPage extends Component {
 

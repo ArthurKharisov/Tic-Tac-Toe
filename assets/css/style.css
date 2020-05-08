@@ -64,6 +64,11 @@ body {
     flex-direction: column;
 }
 
+.game__start_horizontal {
+    flex-direction: row;
+    justify-content: space-around;
+}
+
 .game__option-diff, .game__option-figure {
     width: 200px;
 }
@@ -195,7 +200,11 @@ body {
     display: none;
 }
 
-
+@media screen and (max-width: 1500px) {
+    .wrapper {
+        width: 90%;
+    }
+}
 
 @media screen and (max-width: 1200px) {
     .content_position {
