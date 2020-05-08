@@ -23,6 +23,7 @@ body {
 
 .header_position {
     text-align: center;
+    animation: topcenter 0.5s;
 }
 
 .header__title {
@@ -62,6 +63,7 @@ body {
     align-items: center;
     height: 100%;
     flex-direction: column;
+    animation: bottomcenter 0.3s;
 }
 
 .game__start_horizontal {
@@ -189,6 +191,7 @@ body {
 .game__informer {
     display: flex;
     margin: 0 10px 5px 10px;
+    animation: topcenter 0.5s;
 }
 
 .game__time, .game__score, .game__step {
@@ -243,6 +246,15 @@ body {
 
 }
 
+@keyframes topcenter {
+    from { transform: translateY(-200%); }
+    to { transform: translateY(0%); }
+}
+
+@keyframes bottomcenter {
+    from { transform: translateY(200%); }
+    to { transform: translateY(0%); }
+}
 
 @keyframes leftcenter {
  from { transform: translateX(-200%); }
