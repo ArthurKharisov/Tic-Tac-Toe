@@ -13,7 +13,7 @@
 
 body {
     background-color: #2b2a29;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 .wrapper {
@@ -37,14 +37,16 @@ body {
 
 .game_position {
     flex: 70%;
-    margin-right: 20px;
     padding: 25px;
+    overflow-x: hidden;
+    margin-right: 20px;
     animation: leftcenter 0.3s;
 }
 
 .score_position {
     flex: 30%;
     display: flex;
+    overflow-x: hidden;
     flex-direction: column;
     animation: rightcenter 0.3s;
 }
@@ -62,7 +64,7 @@ body {
     flex-direction: column;
 }
 
-.game__option {
+.game__option-diff, .game__option-figure {
     width: 200px;
 }
 
@@ -95,10 +97,6 @@ body {
     width: 200px;
 }
 
-.button__game_score {
-    margin: 5px;
-}
-
 .score__block {
     line-height: 50px;
     display: flex;
@@ -125,6 +123,10 @@ body {
     color: limegreen;
 }
 
+.score__result_tie {
+    color: grey;
+}
+
 .score__time {
     color: grey;
     flex: 50%;
@@ -142,6 +144,7 @@ body {
     height: 375px;
     width: 375px;
     margin: 0 auto;
+    animation: leftcenter 0.5s;
 }
 
 .game__cell {
@@ -183,20 +186,24 @@ body {
     margin: 0 10px 5px 10px;
 }
 
-.game__time, .game__score, .game_diff {
+.game__time, .game__score, .game__step {
     flex: 33%;
+    text-align: center;
 }
+
+.hide {
+    display: none;
+}
+
 
 
 @media screen and (max-width: 1200px) {
-    .wrapper {
-        width: 80%;
-    }
-}
-
-@media screen and (max-width: 992px) {
     .content_position {
         flex-direction: column;
+    }
+
+    .game__option-diff, .game__option-figure, .button__game_start {
+        width: 140px;
     }
     
     .game_position {
@@ -210,7 +217,7 @@ body {
     }
 }
 
-@media screen and (max-width: 530px) {
+@media screen and (max-width: 600px) {
     .wrapper {
         width: 100%;
     }
@@ -224,6 +231,7 @@ body {
     .score_position {
         border-radius: 0;
     }
+
 }
 
 
